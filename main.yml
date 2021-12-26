@@ -1,13 +1,10 @@
 ---
-- hosts: internet_pi
+- hosts: home_pi
   become: true
 
   pre_tasks:
     - name: Load configuration (with defaults from example file).
-      ansible.builtin.include_vars: "{{ item }}"
-      loop:
-        - example.config.yml
-        - config.yml
+      ansible.builtin.include_vars: config.yml
 
     - name: Ensure apt cache is up to date.
       ansible.builtin.apt:
@@ -22,30 +19,28 @@
       when:
         - ansible_facts.os_family == "Archlinux"
 
-  handlers:
-    - name: Include handlers.
-      ansible.builtin.import_tasks: tasks/handlers.yml
+  roles:
+    - role: hannseman.raspbian
+    - { role: infothrill.rpi_boot_config, boot_config_lines: ['gpu_mem=16','dtoverlay=gpio-fan,gpiopin=14,temp=60000'] }
+    - role: internet-pi
 
-  tasks:
-    - name: Setup Docker.
-      ansible.builtin.import_tasks: tasks/docker.yml
+  vars_prompt:
+    - name: system_ssh_user_password
+      prompt: "Enter password for user pi"
+      private: yes
+      confirm: yes
 
-    - name: Set up Internet Monitoring.
-      ansible.builtin.import_tasks: tasks/internet-monitoring.yml
-      when: monitoring_enable
+    - name: postfix_sasl_password
+      prompt: "Enter password for gmail account used by postfix"
+      private: yes
+      confirm: yes
 
-    - name: Set up Pi Hole.
-      ansible.builtin.import_tasks: tasks/pi-hole.yml
-      when: pihole_enable
+    - name: pihole_password
+      prompt: "Enter password for pi-hole"
+      private: yes
+      confirm: yes
 
-    - name: Set up Shelly Plug Monitoring.
-      ansible.builtin.import_tasks: tasks/shelly-plug.yml
-      when: shelly_plug_enable
-
-    - name: Set up Air Gradient Monitoring.
-      ansible.builtin.import_tasks: tasks/airgradient.yml
-      when: airgradient_enable
-
-    - name: Set up Starlink Monitoring.
-      ansible.builtin.import_tasks: tasks/starlink.yml
-      when: starlink_enable
+    - name: monitoring_grafana_admin_password
+      prompt: "Enter password for grafana"
+      private: yes
+      confirm: yes
