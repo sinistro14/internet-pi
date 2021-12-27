@@ -21,7 +21,7 @@
 
   roles:
     - role: hannseman.raspbian
-    - { role: infothrill.rpi_boot_config, boot_config_lines: ['gpu_mem=16','dtoverlay=gpio-fan,gpiopin=14,temp=60000'] }
+    - role: infothrill.rpi_boot_config
     - role: internet-pi
 
   vars_prompt:
