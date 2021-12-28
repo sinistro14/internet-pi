@@ -12,7 +12,7 @@ pihole_domain: lan
 pihole_dhcp_start:
 pihole_dhcp_end:
 pihole_dhcp_router:
-pihole_dhcp_leasetime: 24
+pihole_dhcp_leasetime: 1
 pihole_dhcp_rapid_commit: true
 
 # Internet monitoring configuration.

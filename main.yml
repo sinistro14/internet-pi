@@ -20,6 +20,7 @@
         - ansible_facts.os_family == "Archlinux"
 
   roles:
+    - role: static-ip
     - role: hannseman.raspbian
     - role: infothrill.rpi_boot_config
     - role: internet-pi
