@@ -28,7 +28,7 @@ services:
       DHCP_rapid_commit: '{{ pihole_dhcp_rapid_commit }}'
     dns:
       - 127.0.0.1
-      - 8.8.8.8
+      - 1.1.1.1
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
