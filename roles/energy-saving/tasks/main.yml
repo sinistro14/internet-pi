@@ -1,0 +1,12 @@
+---
+- name: copy disable hdmi service file to Pi
+  ansible.builtin.copy:
+    src: files/rpi_disable_hdmi.service
+    dest: /etc/systemd/system/rpi_disable_hdmi.service
+    mode: '0640'
+  become: true
+
+- name: ensure service to disable hdmi is enabled
+  ansible.builtin.systemd:
+    enabled: '{{ raspi_disable_hdmi }}'
+    name: rpi_disable_hdmi

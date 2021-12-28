@@ -21,6 +21,7 @@
 
   roles:
     - role: static-ip
+    - role: energy-saving
     - role: hannseman.raspbian
     - role: infothrill.rpi_boot_config
     - role: internet-pi
