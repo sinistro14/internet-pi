@@ -18,9 +18,17 @@ services:
       TZ: '{{ pihole_timezone }}'
       WEBPASSWORD: '{{ pihole_password }}'
       ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
+      TEMPERATUREUNIT: '{{ pihole_temperature_unit }}'
+      DHCP_ACTIVE: '{{ pihole_dhcp_active }}'
+      PIHOLE_DOMAIN: '{{ pihole_domain }}'
+      DHCP_START: '{{ pihole_dhcp_start }}'
+      DHCP_END: '{{ pihole_dhcp_end }}'
+      DHCP_ROUTER: '{{ pihole_dhcp_router }}'
+      DHCP_LEASETIME: '{{ pihole_dhcp_leasetime }}'
+      DHCP_rapid_commit: '{{ pihole_dhcp_rapid_commit }}'
     dns:
       - 127.0.0.1
-      - 8.8.8.8
+      - 1.1.1.1
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'

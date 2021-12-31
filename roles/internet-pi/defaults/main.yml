@@ -1,0 +1,34 @@
+---
+# Location where configuration files will be stored.
+config_dir: '~'
+
+# Pi-hole configuration.
+pihole_enable: true
+pihole_hostname: pihole
+pihole_password: change-this-password
+pihole_temperature_unit: c
+pihole_dhcp_active: false
+pihole_domain: lan
+pihole_dhcp_start:
+pihole_dhcp_end:
+pihole_dhcp_router:
+pihole_dhcp_leasetime: 1
+pihole_dhcp_rapid_commit: true
+
+# Internet monitoring configuration.
+monitoring_enable: true
+monitoring_grafana_admin_password: change-this-password
+monitoring_speedtest_interval: 60m
+monitoring_ping_interval: 5s
+monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
+  - http://www.google.com/;google.com
+  - https://github.com/;github.com
+
+# Shelly Plug configuration. (Also requires `monitoring_enable`)
+shelly_plug_enable: false
+
+# AirGradient configuration. (Also requires `monitoring_enable`)
+airgradient_enable: false
+
+# Starlink configuration. (Also requires `monitoring_enable`)
+starlink_enable: false

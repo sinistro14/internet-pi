@@ -1,4 +1,10 @@
 ---
+roles:
+  - name: hannseman.raspbian
+    source: https://galaxy.ansible.com
+  - name: infothrill.rpi_boot_config
+    source: https://galaxy.ansible.com
+
 collections:
   - ansible.posix
   - community.docker

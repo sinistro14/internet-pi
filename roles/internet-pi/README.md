@@ -83,14 +83,6 @@ At some point in the future, a dedicated upgrade playbook may be added, but for 
 
 A guide for backing up the configurations and historical data will be posted here as part of [Issue #194: Create Backup guide](https://github.com/geerlingguy/internet-pi/issues/194).
 
-## References
-The following hyperlinks were used as reference during development of this ansible project.
-- [Setup Raspberry Pi](https://howchoo.com/pi/pi-hole-setup)
-- [Raspberry Pi DHCP with bridge networking](https://discourse.pi-hole.net/t/dhcp-with-docker-compose-and-bridge-networking/17038)
-- [Configure DNS Pihole with Vodafone Router and VBox](https://hugo-ma-alves.github.io/2019-03-22-pihole-vodafone/)
-- [Saving power in Raspberry Pi](https://frederik.lindenaar.nl/2018/05/11/raspberry-pi-power-saving-disable-hdmi-port-and-others-the-systemd-way.html)
-- [Disable HDMI signal in Raspberry Pi](https://gist.github.com/simlun/1b27b14d707abbba8fc1)
-
 ## License
 
 MIT
