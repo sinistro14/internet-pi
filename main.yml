@@ -25,6 +25,7 @@
     - role: infothrill.rpi_boot_config
     - role: hannseman.raspbian
     - role: internet-pi
+    - role: surfshark
 
   vars_prompt:
     - name: system_ssh_user_password
@@ -44,5 +45,15 @@
 
     - name: monitoring_grafana_admin_password
       prompt: "Enter password for grafana"
+      private: yes
+      confirm: yes
+
+    - name: surfshark_username
+      prompt: "Enter surfshark account username"
+      private: yes
+      confirm: yes
+
+    - name: surfshark_password
+      prompt: "Enter surfshark account password"
       private: yes
       confirm: yes
