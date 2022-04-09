@@ -1,0 +1,26 @@
+- name: Create media-server plex folders
+  ansible.builtin.file:
+    path: "{{ config_dir }}/media-server/media/{{ item }}/"
+    state: directory
+    mode: 0755
+  loop:
+    - "config"
+    - "tv"
+    - "series"
+  become: false
+
+- name: Copy templated plex files into place
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ config_dir }}/media-server/{{ item.dest }}"
+    mode: 0644
+  with_items:
+      - {src: 'plex-docker-compose.yml.j2', dest: 'docker-compose.yml'}
+  notify: Restart media-server
+  become: false
+
+- name: Ensure plex server is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/media-server/"
+    build: false
+  become: false

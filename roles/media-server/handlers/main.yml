@@ -1,0 +1,6 @@
+- name: Restart media-server
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/media-server/"
+    build: false
+    restarted: true
+  become: false

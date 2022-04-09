@@ -1,0 +1,8 @@
+---
+- name: Setup media storage
+  ansible.builtin.import_tasks: disk_setup.yml
+  when: media_server_enable
+
+- name: Setup plex server
+  ansible.builtin.import_tasks: plex.yml
+  when: media_server_enable

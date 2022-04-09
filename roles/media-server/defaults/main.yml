@@ -1,0 +1,6 @@
+# Media server configuration
+media_server_enable: true
+media_disk_label: media_storage
+
+## Plex media server
+plex_claim_token: ''

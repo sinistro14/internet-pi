@@ -25,6 +25,7 @@
     - role: infothrill.rpi_boot_config
     - role: hannseman.raspbian
     - role: internet-pi
+    - role: media-server
     - role: surfshark
 
   vars_prompt:
