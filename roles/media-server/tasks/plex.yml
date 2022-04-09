@@ -6,7 +6,7 @@
   loop:
     - "config"
     - "tv"
-    - "series"
+    - "movies"
   become: false
 
 - name: Copy templated plex files into place
