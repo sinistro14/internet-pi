@@ -15,9 +15,8 @@ services:
       - media-front-tier
     restart: always
     volumes:
-      - ./media/config:/config
-      - ./media/tv:/tv
-      - ./media/movies:/movies
+      - ./plex/config:/config
+      - ./media:/media
     environment:
       - PUID=1000
       - PGID=1000

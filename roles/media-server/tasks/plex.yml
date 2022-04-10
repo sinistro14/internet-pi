@@ -1,12 +1,8 @@
-- name: Create media-server plex folders
+- name: Create media-server plex folder
   ansible.builtin.file:
-    path: "{{ config_dir }}/media-server/media/{{ item }}/"
+    path: "{{ config_dir }}/media-server/plex/config/"
     state: directory
     mode: 0755
-  loop:
-    - "config"
-    - "tv"
-    - "movies"
   become: false
 
 - name: Copy templated plex files into place
