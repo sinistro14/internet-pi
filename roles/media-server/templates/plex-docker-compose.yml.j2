@@ -23,7 +23,6 @@ services:
       - PGID=1000
       - VERSION=latest
       - TZ='{{ media_server_timezone }}'
-      - PLEX_CLAIM='{{ plex_claim_token }}'
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
