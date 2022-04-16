@@ -6,22 +6,21 @@ networks:
   media-front-tier:
     driver: bridge
 
-# More info at https://hub.docker.com/r/plexinc/pms-docker/
 services:
   plex:
     container_name: plex
-    image: lscr.io/linuxserver/plex
-    networks:
-      - media-front-tier
+    image: linuxserver/plex
     restart: always
-    volumes:
-      - ./plex/config:/config
-      - ./media:/media
     environment:
       - PUID=1000
       - PGID=1000
       - VERSION=latest
       - TZ='{{ media_server_timezone }}'
+    volumes:
+      - ./plex/config:/config
+      - ./media/data:/data/media
+    networks:
+      - media-front-tier
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
@@ -32,3 +31,69 @@ services:
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
+
+  deluge:
+    container_name: deluge
+    image: linuxserver/deluge
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='{{ media_server_timezone }}'
+    volumes:
+      - ./deluge/config:/config
+      - ./media/torrents:/data/torrents
+    networks:
+      - media-front-tier
+    ports:
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: always
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ='{{ media_server_timezone }}'
+    volumes:
+      - ./radarr/config:/config
+      - ./media:/data
+    networks:
+      - media-front-tier
+    ports:
+      - 7878:7878
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: always
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ='{{ media_server_timezone }}'
+    volumes:
+      - ./sonarr/config:/config
+      - ./media:/data
+    networks:
+      - media-front-tier
+    ports:
+      - 8989:8989
+
+  jackett:
+    container_name: jackett
+    image: linuxserver/jackett
+    restart: always
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ='{{ media_server_timezone }}'
+    volumes:
+      - ./jackett/config:/config
+      - ./jackett/downloads:/downloads
+    networks:
+      - media-front-tier
+    ports:
+      - 9117:9117
