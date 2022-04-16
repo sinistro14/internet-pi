@@ -16,7 +16,7 @@
     - sonarr/config/
   become: false
 
-- name: Copy templated plex files into place
+- name: Copy templated media server files into place
   ansible.builtin.template:
     src: templates/{{ item.src }}
     dest: "{{ config_dir }}/media-server/{{ item.dest }}"
@@ -26,7 +26,7 @@
   notify: Restart media-server
   become: false
 
-- name: Ensure plex server is running
+- name: Ensure media server is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/media-server/"
     build: false
