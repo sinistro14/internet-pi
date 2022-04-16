@@ -22,7 +22,7 @@
     dest: "{{ config_dir }}/media-server/{{ item.dest }}"
     mode: 0644
   with_items:
-      - {src: 'plex-docker-compose.yml.j2', dest: 'docker-compose.yml'}
+      - {src: 'media-server-docker-compose.yml.j2', dest: 'docker-compose.yml'}
   notify: Restart media-server
   become: false
 
