@@ -8,12 +8,12 @@
   when: ansible_facts.os_family == "Debian"
 
 - name: Ensure openvpn surfshark directory exists
-  file:
+  ansible.builtin.file:
     path: /etc/openvpn/surfshark/
     state: directory
 
 - name: Download and extract surfshark configuration files
-  unarchive:
+  ansible.builtin.unarchive:
     src: https://my.surfshark.com/vpn/api/v1/server/configurations
     remote_src: true
     dest: /etc/openvpn/surfshark/
@@ -26,7 +26,7 @@
   become: true
 
 - name: Setup surfshark authentication file
-  lineinfile: 
+  ansible.builtin.lineinfile: 
     dest: /etc/openvpn/auth.txt
     line: "{{ item }}"
     create: true
@@ -35,7 +35,7 @@
     - "{{ surfshark_password }}"
 
 - name: Set Surfshark credentials to be obtained from file
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/openvpn/default.conf
     regexp: "{{ item.needle }}"
     line: "{{ item.line }}"
@@ -44,7 +44,7 @@
     - { needle: 'auth-user-pass', line: 'auth-user-pass auth.txt' }
 
 - name: Set OpenVPN client to start automatically
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/default/openvpn"
     regexp: "{{ item.needle }}"
     line: "{{ item.line }}"
