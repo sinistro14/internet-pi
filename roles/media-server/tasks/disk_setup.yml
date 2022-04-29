@@ -1,0 +1,20 @@
+- name: Create media-server folder on Pi
+  ansible.builtin.file:
+    path: "{{ config_dir }}/media-server"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Ensure ntfs is supported
+  apt:
+    name: ntfs-3g
+    state: present
+
+- name: "Mount media disk {{ media_disk_label }}"
+  ansible.posix.mount:
+    path: "/home/{{ ansible_user }}/media-server/media"
+    src: "LABEL={{ media_disk_label }}"
+    fstype: ntfs-3g
+    state: mounted
+    opts: "rw,exec,uid=1000,gid=1000,umask=007"
+    boot: true
