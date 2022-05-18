@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+networks:
+  monitoring:
+    driver: bridge
+
+services:
+  rpi-monitor:
+    container_name: rpi-monitor
+    image: michaelmiklis/rpi-monitor:latest
+    restart: unless-stopped
+    devices:
+      - /dev/vcs
+      - /dev/vchiq
+    volumes:
+      - /boot:/boot
+      - /opt/vc:/opt/vc
+      - /sys:/dockerhost/sys:ro
+      - /etc:/dockerhost/etc:ro
+      - /proc:/dockerhost/proc:ro
+      - /usr/lib:/dockerhost/usr/lib:ro
+    networks:
+      - monitoring
+    ports:
+      - 8888:8888

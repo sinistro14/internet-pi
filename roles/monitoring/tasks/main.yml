@@ -1,0 +1,4 @@
+---
+- name: Setup RPI monitor
+  ansible.builtin.import_tasks: rpi_monitor.yml
+  when: rpi_monitor_enable
