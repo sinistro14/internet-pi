@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+networks:
+  pantry:
+    driver: bridge
+
+services:
+  grocy:
+    image: linuxserver/grocy:{{ pantry_manager_version }}
+    container_name: grocy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='{{ pantry_manager_timezone }}'
+    volumes:
+      - ./grocy/config:/config
+    ports:
+      - 9283:80
+    networks:
+      - pantry
+    restart: unless-stopped

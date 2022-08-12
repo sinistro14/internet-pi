@@ -1,0 +1,21 @@
+---
+- name: Create pantry Pi-hole folder on Pi
+  ansible.builtin.file:
+    path: "{{ config_dir }}/pantry/config"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy pantry docker-compose template to Pi
+  ansible.builtin.template:
+    src: templates/pantry-docker-compose.yml.j2
+    dest: "{{ config_dir }}/pantry/docker-compose.yml"
+    mode: 0640
+  become: false
+  notify: Restart pantry
+
+- name: Ensure pantry is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/pantry/"
+    build: false
+  become: false

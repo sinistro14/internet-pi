@@ -1,0 +1,4 @@
+---
+- name: Setup pantry manager
+  ansible.builtin.import_tasks: pantry.yml
+  when: pantry_manager_enable
