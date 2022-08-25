@@ -1,0 +1,55 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+networks:
+  ha-backend:
+    driver: bridge
+  ha-frontend:
+    driver: bridge
+
+services:
+  ha:
+    image: homeassistant/home-assistant:{{ ha_version }}
+    container_name: ha
+    restart: unless-stopped
+    depends_on:
+      - zigbee2mqtt
+      - mosquitto
+    volumes:
+      - ./:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8123:8123
+    networks:
+      - ha-frontend
+      - ha-backend
+
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt
+    container_name: zigbee2mqtt
+    restart: unless-stopped
+    privileged: true
+    environment:
+      - TZ='{{ ha_timezone }}'
+    devices:
+      - {{ conbee_path }}:/dev/ttyACM0
+    volumes:
+      - ./zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8124:8080
+    networks:
+      - ha-backend
+    
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: mosquitto
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - ha-backend

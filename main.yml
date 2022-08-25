@@ -27,7 +27,7 @@
     - role: monitoring
     - role: internet-pi
     - role: media-server
-    - role: pantry
+    - role: smart-home
     - role: surfshark
 
   vars_prompt:

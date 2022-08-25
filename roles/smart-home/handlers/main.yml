@@ -5,8 +5,17 @@
     restarted: true
   become: false
 
+- name: Restart home assistant
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/ha/"
+    build: false
+    restarted: true
+  become: false
+
 - name: Docker prune
-  listen: Restart pantry
+  listen:
+    - Restart pantry
+    - Restart home assistant
   community.docker.docker_prune:
     containers: yes
     images: yes

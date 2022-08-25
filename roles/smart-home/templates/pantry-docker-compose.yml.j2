@@ -10,6 +10,7 @@ services:
   grocy:
     image: linuxserver/grocy:{{ pantry_manager_version }}
     container_name: grocy
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -20,4 +21,3 @@ services:
       - 9283:80
     networks:
       - pantry
-    restart: unless-stopped

@@ -1,0 +1,8 @@
+### Home Assistant ###
+ha_enable: true
+ha_version: stable
+conbee_path: /dev/ttyACM0
+
+### Pantry ###
+pantry_manager_enable: true
+pantry_manager_version: latest
