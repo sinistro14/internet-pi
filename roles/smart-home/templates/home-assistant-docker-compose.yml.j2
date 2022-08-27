@@ -40,6 +40,7 @@ services:
     ports:
       - 8124:8080
     networks:
+      - ha-frontend
       - ha-backend
     
   mosquitto:
@@ -48,8 +49,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    ports:
-      - 1883:1883
-      - 9001:9001
+    expose:
+      - 1883
+      - 9001
     networks:
       - ha-backend
