@@ -3,9 +3,9 @@
 version: "3"
 
 networks:
-  ha-backend:
+  backend:
     driver: bridge
-  ha-frontend:
+  frontend:
     driver: bridge
 
 services:
@@ -22,8 +22,8 @@ services:
     ports:
       - 8123:8123
     networks:
-      - ha-frontend
-      - ha-backend
+      - frontend
+      - backend
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt
@@ -40,8 +40,8 @@ services:
     ports:
       - 8124:8080
     networks:
-      - ha-frontend
-      - ha-backend
+      - frontend
+      - backend
     
   mosquitto:
     image: eclipse-mosquitto:2.0
@@ -53,4 +53,4 @@ services:
       - 1883
       - 9001
     networks:
-      - ha-backend
+      - backend

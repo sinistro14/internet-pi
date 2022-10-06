@@ -3,7 +3,7 @@
 version: "3"
 
 networks:
-  pantry:
+  default:
     driver: bridge
 
 services:
@@ -20,4 +20,4 @@ services:
     ports:
       - 9283:80
     networks:
-      - pantry
+      - default
