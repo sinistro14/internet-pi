@@ -43,5 +43,6 @@
 - name: Ensure home assistant is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/ha/"
+    pull: true
     build: false
   become: false

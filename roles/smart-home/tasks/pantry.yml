@@ -17,5 +17,6 @@
 - name: Ensure pantry is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/pantry/"
+    pull: true
     build: false
   become: false

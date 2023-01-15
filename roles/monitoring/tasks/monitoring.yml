@@ -46,5 +46,6 @@
 - name: Ensure monitoring is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/monitoring/"
+    pull: true
     build: false
   become: false
