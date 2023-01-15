@@ -10,10 +10,9 @@
     - media/torrents/incomplete
     - plex/config/
     - deluge/config/
-    - jackett/config/
-    - jackett/downloads/
     - radarr/config/
     - sonarr/config/
+    - prowlarr/config/
   become: false
 
 - name: Copy templated media server files into place
@@ -29,5 +28,6 @@
 - name: Ensure media server is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/media-server/"
+    pull: true
     build: false
   become: false
