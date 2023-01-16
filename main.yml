@@ -24,8 +24,8 @@
     - role: static-ip
     - role: infothrill.rpi_boot_config
     - role: hannseman.raspbian
-    - role: monitoring
     - role: internet-pi
+    - role: monitoring
     - role: media-server
     - role: smart-home
     - role: surfshark

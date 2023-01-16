@@ -1,10 +1,12 @@
 ---
-- name: Create monitoring folder
+- name: Create monitoring folders
   ansible.builtin.file:
-    path: "{{ config_dir }}/monitoring"
+    path: "{{ config_dir }}/monitoring/{{ item }}"
     state: directory
     mode: 0755
   become: false
+  loop:
+    - prometheus
 
 - name: Copy monitoring docker-compose template and env files
   ansible.builtin.template:
