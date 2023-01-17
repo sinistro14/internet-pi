@@ -1,7 +1,7 @@
 ---
 - name: Create pantry Pi-hole folder on Pi
   ansible.builtin.file:
-    path: "{{ config_dir }}/pantry/config"
+    path: "{{ config_dir }}/pantry/"
     state: directory
     mode: 0755
   become: false
