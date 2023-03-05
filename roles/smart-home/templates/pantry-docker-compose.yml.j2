@@ -16,7 +16,7 @@ services:
       - PGID=1000
       - TZ='{{ pantry_manager_timezone }}'
     volumes:
-      - ./grocy/config:/config
+      - ./grocy:/config
     ports:
       - 9283:80
     networks:

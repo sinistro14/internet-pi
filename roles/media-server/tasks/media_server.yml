@@ -1,3 +1,18 @@
+- name: Create media-server folder
+  ansible.builtin.file:
+    path: "{{ config_dir }}/media-server"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Create media folder symbolic link
+  ansible.builtin.file:
+    src: "/mnt/data"
+    dest: "/home/{{ ansible_user }}/media-server/media"
+    state: link
+    mode: 0755
+  become: false
+
 - name: Create media-server folders
   ansible.builtin.file:
     path: "{{ config_dir }}/media-server/{{ item }}"
