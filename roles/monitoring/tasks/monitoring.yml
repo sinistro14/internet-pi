@@ -1,0 +1,53 @@
+---
+- name: Create monitoring folders
+  ansible.builtin.file:
+    path: "{{ config_dir }}/monitoring/{{ item }}"
+    state: directory
+    mode: 0755
+  become: false
+  loop:
+    - prometheus
+
+- name: Copy monitoring docker-compose template and env files
+  ansible.builtin.template:
+    src: "templates/{{ item.src }}"
+    dest: "{{ config_dir }}/monitoring/{{ item.dest }}"
+    mode: 0644
+  become: false
+  loop:
+    - src: monitoring-docker-compose.yml.j2
+      dest: docker-compose.yml
+    - src: grafana.env.j2
+      dest: grafana.env
+  notify: Restart monitoring
+
+- name: Copy configurations
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ config_dir }}/monitoring"
+    mode: 0644
+  become: false
+  loop:
+    - blackbox
+    - grafana
+  notify: Restart monitoring
+
+- name: Copy template configurations
+  ansible.builtin.template:
+    src: "templates/{{ item.src }}"
+    dest: "{{ config_dir }}/monitoring/{{ item.dest }}"
+    mode: 0644
+  become: false
+  loop:
+    - src: prometheus.yml.j2
+      dest: prometheus/prometheus.yml
+    - src: prometheus-pinghosts.yaml.j2
+      dest: prometheus/pinghosts.yaml
+  notify: Restart monitoring
+
+- name: Ensure monitoring is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/monitoring/"
+    pull: true
+    build: false
+  become: false

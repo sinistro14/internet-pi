@@ -1,0 +1,48 @@
+---
+- name: Create home assistant folders
+  ansible.builtin.file:
+    path: "{{ config_dir }}/ha/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - zigbee2mqtt
+    - mosquitto
+  become: false
+
+- name: Install libseccomp2 if Buster distro
+  apt: 
+    name: libseccomp2
+    state: latest
+    default_release: buster-backports
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'buster'
+
+- name: Copy home assistant docker-compose template to Pi
+  ansible.builtin.template:
+    src: templates/home-assistant-docker-compose.yml.j2
+    dest: "{{ config_dir }}/ha/docker-compose.yml"
+    mode: 0640
+  become: false
+  notify: Restart home assistant
+
+- name: Copy mosquitto configuration file
+  ansible.builtin.copy:
+    src: files/mosquitto.conf
+    dest: "{{ config_dir }}/ha/mosquitto/mosquitto.conf"
+    mode: 0644
+  become: false
+  notify: Restart home assistant
+
+- name: Copy zigbee2mqtt configuration file
+  ansible.builtin.copy:
+    src: files/zigbee2mqtt-configuration.yml
+    dest: "{{ config_dir }}/ha/zigbee2mqtt/configuration.yaml"
+    mode: 0644
+  become: false
+  notify: Restart home assistant
+
+- name: Ensure home assistant is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/ha/"
+    pull: true
+    build: false
+  become: false

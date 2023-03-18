@@ -1,0 +1,33 @@
+---
+- name: Create pantry folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ config_dir }}/pantry/"
+    - /mnt/data/grocy/
+  become: false
+
+- name: Copy pantry docker-compose template to Pi
+  ansible.builtin.template:
+    src: templates/pantry-docker-compose.yml.j2
+    dest: "{{ config_dir }}/pantry/docker-compose.yml"
+    mode: 0640
+  become: false
+  notify: Restart pantry
+
+- name: Create pantry symbolic link
+  ansible.builtin.file:
+    src: "/mnt/data/grocy"
+    dest: "{{ config_dir }}/pantry/grocy"
+    state: link
+    mode: 0755
+  become: false
+
+- name: Ensure pantry is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/pantry/"
+    pull: true
+    build: false
+  become: false

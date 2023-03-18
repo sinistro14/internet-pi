@@ -8,5 +8,5 @@
 
 - name: ensure service to disable hdmi is enabled
   ansible.builtin.systemd:
-    enabled: '{{ raspi_disable_hdmi }}'
+    enabled: '{{ rpi_disable_hdmi }}'
     name: rpi_disable_hdmi
