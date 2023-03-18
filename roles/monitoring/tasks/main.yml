@@ -1,0 +1,4 @@
+---
+- name: Setup resource monitoring
+  ansible.builtin.import_tasks: monitoring.yml
+  when: resource_monitoring_enable

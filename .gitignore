@@ -1,2 +1,21 @@
+# Runtime files
+*.retry
+
+# Configurations
 inventory.ini
 config.yml
+
+# Exclude passwords
+vault.yml
+*pwd*
+*pass*
+*password*
+*.txt
+
+# Exclude binaries
+*.bin
+*.jar
+*.tar
+*.zip
+*.gzip
+*.tgz
