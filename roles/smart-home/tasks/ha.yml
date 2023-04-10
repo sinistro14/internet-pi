@@ -46,3 +46,26 @@
     pull: true
     build: false
   become: false
+
+- name: Setup surfshark authentication file
+  ansible.builtin.lineinfile: 
+    dest: /etc/openvpn/auth.txt
+    line: "{{ item }}"
+    create: true
+  loop:
+    - "{{ surfshark_username }}"
+    - "{{ surfshark_password }}"
+
+- name: Add trusted proxies
+  ansible.builtin.blockinfile:
+    path: "{{ config_dir }}/ha/configuration.yaml"
+    state: present
+    block: |
+      http:
+        use_x_forwarded_for: true
+        trusted_proxies:
+          - 127.0.0.1
+          - ::1
+          - 172.16.0.0/12 # docker internal network
+  become: false
+  notify: Restart home assistant

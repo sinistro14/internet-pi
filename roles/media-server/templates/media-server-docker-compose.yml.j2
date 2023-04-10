@@ -3,8 +3,9 @@
 version: "3"
 
 networks:
-  frontend:
+  default:
     driver: bridge
+    name: media-server
 
 services:
   plex:
@@ -20,9 +21,8 @@ services:
       - ./plex/config:/config
       - ./media/data:/data/media
     networks:
-      - frontend
+      - default
     ports:
-      - 32400:32400/tcp
       - 3005:3005/tcp
       - 8324:8324/tcp
       - 32469:32469/tcp
@@ -31,6 +31,14 @@ services:
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
+    expose:
+      - 32400
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plex.entrypoints=http"
+      - "traefik.http.routers.plex.rule=Host(`plex.{{ server_domain }}`)"
+      - "traefik.http.routers.plex.service=plex"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
 
   deluge:
     container_name: deluge
@@ -44,11 +52,18 @@ services:
       - ./deluge/config:/config
       - ./media/torrents:/data/torrents
     networks:
-      - frontend
+      - default
     ports:
-      - 8112:8112
       - 6881:6881
       - 6881:6881/udp
+    expose:
+      - 8112
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.deluge.entrypoints=http"
+      - "traefik.http.routers.deluge.rule=Host(`deluge.{{ server_domain }}`)"
+      - "traefik.http.routers.deluge.service=deluge"
+      - "traefik.http.services.deluge.loadbalancer.server.port=8112"
 
   radarr:
     image: linuxserver/radarr
@@ -62,9 +77,14 @@ services:
       - ./radarr/config:/config
       - ./media:/data
     networks:
-      - frontend
-    ports:
-      - 7878:7878
+      - default
+    expose:
+      - 7878
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=7878"
+      - "traefik.http.routers.radarr.entrypoints=http"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.{{ server_domain }}`)"
 
   sonarr:
     image: linuxserver/sonarr
@@ -78,9 +98,14 @@ services:
       - ./sonarr/config:/config
       - ./media:/data
     networks:
-      - frontend
-    ports:
-      - 8989:8989
+      - default
+    expose:
+      - 8989
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8989"
+      - "traefik.http.routers.sonarr.entrypoints=http"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.{{ server_domain }}`)"
 
   prowlarr:
     image: linuxserver/prowlarr
@@ -93,6 +118,11 @@ services:
     volumes:
       - ./prowlarr/config:/config
     networks:
-      - frontend
-    ports:
-      - 9696:9696
+      - default
+    expose:
+      - 9696
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=9696"
+      - "traefik.http.routers.prowlarr.entrypoints=http"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ server_domain }}`)"

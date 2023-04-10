@@ -5,6 +5,7 @@ version: "3"
 networks:
   default:
     driver: bridge
+    name: pantry
 
 services:
   grocy:
@@ -17,7 +18,12 @@ services:
       - TZ='{{ pantry_manager_timezone }}'
     volumes:
       - ./grocy:/config
-    ports:
-      - 9283:80
+    expose:
+      - 80
     networks:
       - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.http.routers.grocy.entrypoints=http"
+      - "traefik.http.routers.grocy.rule=Host(`grocy.{{ server_domain }}`)"

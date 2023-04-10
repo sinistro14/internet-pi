@@ -6,12 +6,15 @@ config_dir: '~'
 pihole_version: 'latest'
 pihole_enable: true
 pihole_hostname: pihole
+pihole_virtual_host: '{{ pihole_hostname }}.{{ pihole_domain }}'
 pihole_password: change-this-password
 pihole_temperature_unit: c
 pihole_dhcp_active: false
 pihole_domain: lan
 pihole_dns: '1.1.1.1;1.0.0.1'
+pihole_dns_records:
 pihole_dnsmasq_listening: local
+pihole_dnsmasq_extra_config:
 pihole_dhcp_start:
 pihole_dhcp_end:
 pihole_dhcp_router:

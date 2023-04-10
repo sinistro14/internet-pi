@@ -1,0 +1,4 @@
+---
+- name: Setup reverse-proxy
+  ansible.builtin.import_tasks: traefik.yml
+  when: reverse_proxy_enable

@@ -9,6 +9,7 @@ volumes:
 networks:
   frontend:
     driver: bridge
+    name: monitoring
   backend:
     driver: bridge
 
@@ -18,8 +19,8 @@ services:
     restart: unless-stopped
     user: '472'
     container_name: monitoring_grafana
-    ports:
-      - '{{ resource_monitoring_grafana_port }}:3000'
+#    ports:
+#      - '{{ resource_monitoring_grafana_port }}:3000'
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -30,6 +31,11 @@ services:
       - backend
     depends_on:
       - prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - "traefik.http.routers.grafana.entrypoints=http"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.{{ server_domain }}`)"
 
   prometheus:
     image: prom/prometheus

@@ -52,7 +52,6 @@
     path: "{{ config_dir }}/media-server/deluge/config/core.conf"
     regexp: '([[:blank:]]*)"{{ item.config }}": [\/[:alnum:]"]*,$'
     replace: '\1"{{ item.config }}": {{ item.value }},'
-    backup: yes
   with_items:
     - {config: 'move_completed', value: 'true'}
     - {config: 'download_location', value: '"/data/torrents/incomplete"'}

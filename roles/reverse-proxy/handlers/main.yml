@@ -1,0 +1,17 @@
+- name: Restart traefik
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/traefik/"
+    build: false
+    restarted: true
+  become: false
+
+- name: Docker prune
+  listen:
+    - Restart traefik
+  community.docker.docker_prune:
+    containers: yes
+    images: yes
+    images_filters:
+      dangling: false
+    networks: yes
+    volumes: yes
