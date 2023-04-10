@@ -47,15 +47,6 @@
     build: false
   become: false
 
-- name: Setup surfshark authentication file
-  ansible.builtin.lineinfile: 
-    dest: /etc/openvpn/auth.txt
-    line: "{{ item }}"
-    create: true
-  loop:
-    - "{{ surfshark_username }}"
-    - "{{ surfshark_password }}"
-
 - name: Add trusted proxies
   ansible.builtin.blockinfile:
     path: "{{ config_dir }}/ha/configuration.yaml"
