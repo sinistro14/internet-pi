@@ -1,0 +1,50 @@
+# {{ ansible_managed }}
+---
+version: "3"
+
+networks:
+  default:
+    name: reverse-proxy
+    driver: bridge
+  pihole:
+    external: true
+  pantry:
+    external: true
+  ha:
+    external: true
+  monitoring:
+    external: true
+  media-server:
+    external: true
+
+services:
+  reverse-proxy:
+    image: traefik:{{ reverse_proxy_version }}
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.plex.address=:32400"
+    ports:
+      - 80:80
+      - 32400:32400/tcp
+    expose:
+      - 8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - default
+      - pihole
+      - pantry
+      - ha
+      - monitoring
+      - media-server
+    labels:
+      - "traefik.enable={{ reverse_proxy_enable|lower }}"
+      - "traefik.port=8080"
+      - "traefik.http.routers.dashboard.entrypoints=http"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.{{ server_domain }}`)"
+    restart: unless-stopped

@@ -1,0 +1,24 @@
+---
+- name: Create traefik folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ config_dir }}/traefik/"
+  become: false
+
+- name: Copy traefik docker-compose template to Pi
+  ansible.builtin.template:
+    src: templates/traefik-docker-compose.yml.j2
+    dest: "{{ config_dir }}/traefik/docker-compose.yml"
+    mode: 0640
+  become: false
+  notify: Restart traefik
+
+- name: Ensure traefik is running
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/traefik/"
+    pull: true
+    build: false
+  become: false

@@ -1,0 +1,3 @@
+# Reverse proxy default configuration
+reverse_proxy_enable: false
+reverse_proxy_version: 'latest'

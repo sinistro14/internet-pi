@@ -7,6 +7,7 @@ networks:
     driver: bridge
   frontend:
     driver: bridge
+    name: ha
 
 services:
   ha:
@@ -19,11 +20,17 @@ services:
     volumes:
       - ./:/config
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 8123:8123
+    expose:
+      - 8123
     networks:
       - frontend
       - backend
+    labels:
+      - "traefik.enable={{ reverse_proxy_enable }}"
+      - "traefik.http.routers.ha.entrypoints=http"
+      - "traefik.http.routers.ha.rule=Host(`ha.{{ server_domain }}`)"
+      - "traefik.http.routers.ha.service=ha"
+      - "traefik.http.services.ha.loadbalancer.server.port=8123"
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt
@@ -37,11 +44,17 @@ services:
     volumes:
       - ./zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro
-    ports:
-      - 8124:8080
+    expose:
+      - 8080
     networks:
       - frontend
       - backend
+    labels:
+      - "traefik.enable={{ reverse_proxy_enable }}"
+      - "traefik.http.routers.mqtt.entrypoints=http"
+      - "traefik.http.routers.mqtt.rule=Host(`mqtt.{{ server_domain }}`)"
+      - "traefik.http.routers.mqtt.service=mqtt"
+      - "traefik.http.services.mqtt.loadbalancer.server.port=8080"
     
   mosquitto:
     image: eclipse-mosquitto:2.0

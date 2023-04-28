@@ -1,12 +1,12 @@
 ---
-- name: Create Pi-hole folder on Pi.
+- name: Create Pi-hole folder on Pi
   ansible.builtin.file:
     path: "{{ config_dir }}/pi-hole"
     state: directory
     mode: 0755
   become: false
 
-- name: Copy Pi-hole docker-compose template to Pi.
+- name: Copy Pi-hole docker-compose template to Pi
   ansible.builtin.template:
     src: templates/pi-hole-docker-compose.yml.j2
     dest: "{{ config_dir }}/pi-hole/docker-compose.yml"
@@ -14,9 +14,30 @@
   become: false
   notify: Restart pi-hole
 
+# FIXME use a config_dir variation instead
+- name: Add hostname to DNS routing
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_user }}/pi-hole/etc-pihole/custom.list"
+    line: "{{ static_ip }} {{ item }}"
+    state: present
+  loop: "{{ pihole_dns_records }}"
+  when: pihole_dns_records
+  become: true
+  notify: Restart pi-hole
+
+# FIXME use a config_dir variation instead
+- name: Create additional DNS configuration
+  ansible.builtin.copy:
+    dest: "/home/{{ ansible_user }}/pi-hole/etc-dnsmasq.d/03-extra.conf"
+    content: "{{ pihole_dnsmasq_extra_config }}"
+    mode: 0644
+  when: pihole_dnsmasq_extra_config
+  become: true
+  notify: Restart pi-hole
+
 # TODO: The first time this playbook is run, the `pi` user may not be added
 # to the `docker` group, so this task may fail.
-- name: Ensure Pi-hole is running.
+- name: Ensure Pi-hole is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/pi-hole/"
     build: false
