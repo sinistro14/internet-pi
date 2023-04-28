@@ -26,8 +26,10 @@ services:
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.http.address=:80"
+      - "--entrypoints.plex.address=:32400"
     ports:
       - 80:80
+      - 32400:32400/tcp
     expose:
       - 8080
     volumes:
@@ -40,7 +42,7 @@ services:
       - monitoring
       - media-server
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable={{ reverse_proxy_enable|lower }}"
       - "traefik.port=8080"
       - "traefik.http.routers.dashboard.entrypoints=http"
       - "traefik.http.routers.dashboard.service=api@internal"

@@ -32,7 +32,7 @@ services:
     depends_on:
       - prometheus
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable={{ reverse_proxy_enable|lower }}"
       - "traefik.port=3000"
       - "traefik.http.routers.grafana.entrypoints=http"
       - "traefik.http.routers.grafana.rule=Host(`grafana.{{ server_domain }}`)"

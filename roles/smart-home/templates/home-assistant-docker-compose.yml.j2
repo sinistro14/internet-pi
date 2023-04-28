@@ -26,7 +26,7 @@ services:
       - frontend
       - backend
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable={{ reverse_proxy_enable }}"
       - "traefik.http.routers.ha.entrypoints=http"
       - "traefik.http.routers.ha.rule=Host(`ha.{{ server_domain }}`)"
       - "traefik.http.routers.ha.service=ha"
@@ -50,7 +50,7 @@ services:
       - frontend
       - backend
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable={{ reverse_proxy_enable }}"
       - "traefik.http.routers.mqtt.entrypoints=http"
       - "traefik.http.routers.mqtt.rule=Host(`mqtt.{{ server_domain }}`)"
       - "traefik.http.routers.mqtt.service=mqtt"
