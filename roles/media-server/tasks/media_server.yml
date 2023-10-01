@@ -53,7 +53,9 @@
     regexp: '([[:blank:]]*)"{{ item.config }}": [\/[:alnum:]"]*,$'
     replace: '\1"{{ item.config }}": {{ item.value }},'
   with_items:
-    - {config: 'move_completed', value: 'true'}
+    - {config: 'queue_new_to_top', value: 'true'}
     - {config: 'download_location', value: '"/data/torrents/incomplete"'}
+    - {config: 'move_completed', value: 'true'}
     - {config: 'move_completed_path', value: '"/data/torrents/complete"'}
+    - "{{ deluge_custom_config }}"
   become: false
