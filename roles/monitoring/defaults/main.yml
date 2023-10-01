@@ -1,5 +1,5 @@
 # Monitoring global configuration
 resource_monitoring_enable: true
 
-# Grafana configuration
+# Grafana
 resource_monitoring_grafana_port: 3000
