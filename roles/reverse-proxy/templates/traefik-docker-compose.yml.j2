@@ -20,6 +20,7 @@ networks:
 services:
   reverse-proxy:
     image: traefik:{{ reverse_proxy_version }}
+    container_name: traefik
     command:
       - "--api.dashboard=true"
       - "--api.insecure=false"
