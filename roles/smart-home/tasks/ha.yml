@@ -41,10 +41,8 @@
   notify: Restart home assistant
 
 - name: Ensure home assistant is running
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/ha/"
-    pull: true
-    build: false
   become: false
 
 - name: Add trusted proxies

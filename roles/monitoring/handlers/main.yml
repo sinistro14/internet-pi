@@ -1,16 +1,5 @@
 - name: Restart monitoring
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/monitoring/"
-    build: false
-    restarted: true
+    state: restarted
   become: false
-
-- name: Docker prune
-  listen: Restart monitoring
-  community.docker.docker_prune:
-    containers: yes
-    images: yes
-    images_filters:
-      dangling: false
-    networks: yes
-    volumes: yes

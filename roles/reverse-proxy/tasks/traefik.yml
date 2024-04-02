@@ -17,8 +17,6 @@
   notify: Restart traefik
 
 - name: Ensure traefik is running
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/traefik/"
-    pull: true
-    build: false
   become: false

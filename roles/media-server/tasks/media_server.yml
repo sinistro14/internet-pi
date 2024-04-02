@@ -41,10 +41,8 @@
   become: false
 
 - name: Ensure media server is running
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/media-server/"
-    pull: true
-    build: false
   become: false
 
 - name: Configure Deluge

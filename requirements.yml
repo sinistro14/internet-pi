@@ -6,6 +6,7 @@ roles:
     source: https://galaxy.ansible.com
 
 collections:
-  - ansible.posix
-  - community.docker
-  - community.general
+  - name: ansible.posix
+  - name: community.docker
+    version: ">=3.8.0"
+  - name: community.general

@@ -46,8 +46,6 @@
   notify: Restart monitoring
 
 - name: Ensure monitoring is running
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/monitoring/"
-    pull: true
-    build: false
   become: false
