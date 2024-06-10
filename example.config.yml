@@ -1,18 +1,138 @@
 ---
-# Location where configuration files will be stored.
+# Common Configuration - Host
+server_ip: <rpi_ip>
+server_hostname: <rpi_hostname>
+server_domain: '{{ server_hostname }}.home'
+
+### static-ip config ###
+interface: eth0   # eth0 if wired ethernet connection, but double check
+static_ip: '{{ server_ip }}'
+static_ip_address: '{{ static_ip }}/24'
+routers: <router_ip>
+dns_servers: <dns_server_ip>  # usually same as router
+
+### energy-saving config ###
+rpi_disable_hdmi: false
+
+### hannseman.raspbian config ###
+system_hostname: '{{ server_domain }}'
+
+system_packages:  # add others if required
+  - apt-transport-https
+  - vim
+
+system_ssh_user_salt: <add_random_salt>
+
+ssh_public_keys:
+  - <ssh_public_key>
+
+# string presented when connecting to host over ssh
+ssh_banner: Welcome to {{ server_hostname }}!!!
+
+# system locale and timezone
+system_locale: 'en_US.UTF-8'
+system_timezone: <tz_notation_timezone>
+
+# whether machine should reboot when /var/run/reboot-required is found
+unattended_upgrades_auto_reboot: true
+
+### infothrill config ###
+# update /boot/config.txt with `{{ key }}: {{ value }}` if required
+# currently disabling bluetooth, wifi and
+# turning on gpio-fan when temperature reaches 68 ºC
+#boot_config_lines:
+#  - "gpu_mem=16"
+#  - "dtoverlay=disable-bt"
+#  - "dtoverlay=disable-wifi"
+#  - "dtoverlay=gpio-fan,gpiopin=14,temp=68000"
+
+## Services
+
+# where configuration files will be stored
 config_dir: '~'
 
-# Pi-hole configuration.
-pihole_enable: true
-pihole_hostname: pihole
-pihole_timezone: America/Chicago
-pihole_password: "change-this-password"
+### Reverse proxy
+reverse_proxy_enable: true
+reverse_proxy_version: 'v2.11' # https://hub.docker.com/_/traefik/tags
+reverse_proxy_errors_page_version: '2.27' # https://hub.docker.com/r/tarampampam/error-pages/tags
+reverse_proxy_errors_page_template: 'orient'
 
-# Internet monitoring configuration.
-monitoring_enable: true
-monitoring_grafana_admin_password: "admin"
-monitoring_speedtest_interval: 60m
-monitoring_ping_interval: 5s
-monitoring_ping_hosts:  # [URL];[HUMAN_READABLE_NAME]
-  - http://www.google.com/;google.com
-  - https://github.com/;github.com
+### Monitoring
+resource_monitoring_enable: false
+resource_monitoring_grafana_port: 3030
+
+### Media Server
+media_server_enable: false
+media_disk_path: <media_data_path>
+media_server_timezone: '{{ system_timezone }}'
+
+#### Plex
+plex_claim_token: '' # for more see https://plex.tv/claim and https://hub.docker.com/r/linuxserver/plex
+plex_hostname: 'plex.{{ server_domain }}'
+plex_advertise_ip: 'http://{{ plex_hostname }}:{{ plex_port }},http://{{ server_ip }}:{{ plex_port }}'
+plex_allowed_networks: '192.168.1.0/24,172.16.0.0/12'
+
+#### Deluge
+# disable seeding
+deluge_custom_config:
+  - config: 'allow_remote'
+    value: 'false'
+  - config: 'dont_count_slow_torrents'
+    value: 'true'
+  - config: 'max_active_limit'
+    value: '4'
+  - config: 'max_active_downloading'
+    value: '4'
+  - config: 'max_active_seeding'
+    value: '0'
+  - config: 'share_ratio_limit'
+    value: '0.0'
+  - config: 'seed_time_ratio_limit'
+    value: '0.0'
+  - config: 'seed_time_limit'
+    value: '0'
+  - config: 'stop_seed_ratio'
+    value: '0.0'
+  - config: 'stop_seed_at_ratio'
+    value: 'true'
+  - config: 'remove_seed_at_ratio'
+    value: 'false'
+
+#### Home Assistant
+ha_enable: false
+ha_version: '2024.3' # https://hub.docker.com/r/homeassistant/home-assistant/tags
+ha_timezone: '{{ system_timezone }}'
+conbee_path: <path_to_conbee> # something similar to /dev/serial/by-id/...
+
+#### Grocy
+pantry_manager_enable: false
+pantry_manager_version: '4.2.0' # https://hub.docker.com/r/linuxserver/grocy/tags
+pantry_manager_timezone: '{{ system_timezone }}'
+
+### Internet Pi
+
+### Pi hole config ###
+pihole_enable: false
+pihole_version: '2024.03.2' # https://hub.docker.com/r/pihole/pihole/tags
+pihole_hostname: '{{ server_hostname }}'
+pihole_timezone: '{{ system_timezone }}'
+# Domain name sent by the DHCP server
+pihole_domain: '{{ server_domain }}'
+# Local DNS domains 
+pihole_dns_records: # remove unused records
+  - "traefik.{{ server_domain }}"
+  - "grocy.{{ server_domain }}"
+  - "ha.{{ server_domain }}"
+  - "mqtt.{{ server_domain }}"
+  - "pihole.{{ server_domain }}"
+  - "dozzle.{{ server_domain }}"
+  - "grafana.{{ server_domain }}"
+  - "plex.{{ server_domain }}"
+  - "deluge.{{ server_domain }}"
+  - "radarr.{{ server_domain }}"
+  - "sonarr.{{ server_domain }}"
+  - "prowlarr.{{ server_domain }}"
+# Web server virtual host
+pihole_virtual_host: 'pihole.{{ pihole_domain }}'
+# Upstream DNS server(s) for Pi-hole to forward queries, using Quad9
+pihole_dns: '9.9.9.11;149.112.112.11;2620:fe::11;2620:fe::fe:11'
