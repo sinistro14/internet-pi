@@ -1,0 +1,11 @@
+# Misc configuration
+misc:
+  enabled: false
+  pipo:
+    name: pipo
+    channel:
+    voice_channel:
+    token:
+    spotify:
+      client:
+      secret:

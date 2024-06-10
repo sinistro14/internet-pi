@@ -1,0 +1,14 @@
+- name: Docker prune
+  listen:
+    - Restart media-server
+    - Restart monitoring
+    - Restart traefik
+    - Restart pantry
+    - Restart home assistant
+  community.docker.docker_prune:
+    containers: yes
+    images: yes
+    images_filters:
+      dangling: false
+    networks: yes
+    volumes: yes

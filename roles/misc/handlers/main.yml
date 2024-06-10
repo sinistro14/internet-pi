@@ -1,0 +1,5 @@
+- name: Restart pipo
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/misc/pipo/"
+    state: restarted
+  become: false

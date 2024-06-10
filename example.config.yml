@@ -112,7 +112,7 @@ pantry_manager_timezone: '{{ system_timezone }}'
 ### Internet Pi
 
 ### Pi hole config ###
-pihole_enable: false
+pihole_enable: true
 pihole_version: '2024.03.2' # https://hub.docker.com/r/pihole/pihole/tags
 pihole_hostname: '{{ server_hostname }}'
 pihole_timezone: '{{ system_timezone }}'

@@ -1,0 +1,4 @@
+---
+- name: Setup misc services
+  ansible.builtin.import_tasks: misc.yml
+  when: misc.enabled

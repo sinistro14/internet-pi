@@ -1,0 +1,27 @@
+networks:
+  backend:
+    driver: bridge
+
+services:
+  app:
+    image: sinistro14/pipo:latest
+    container_name: {{ misc.pipo.name }}
+    environment:
+      - PIPO_APP={{ misc.pipo.name }}
+      - PIPO_CHANNEL={{ misc.pipo.channel }}
+      - PIPO_VOICE_CHANNEL={{ misc.pipo.voice_channel }}
+      - PIPO_TOKEN={{ misc.pipo.token }}
+      - PIPO_SPOTIFY_CLIENT={{ misc.pipo.spotify.client }}
+      - PIPO_SPOTIFY_SECRET={{ misc.pipo.spotify.secret }}
+    networks:
+      - backend
+    deploy:
+      restart_policy:
+        delay: 5s
+        max_attempts: 3
+        condition: on-failure
+      resources:
+        reservations:
+          memory: 250M
+        limits:
+          memory: 400M

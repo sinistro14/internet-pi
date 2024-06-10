@@ -1,0 +1,29 @@
+---
+- name: Create misc folder
+  ansible.builtin.file:
+    path: "{{ config_dir }}/misc"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Create misc folders
+  ansible.builtin.file:
+    path: "{{ config_dir }}/misc/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - pipo/
+  become: false
+
+- name: Copy pipo docker-compose template to Pi
+  ansible.builtin.template:
+    src: templates/pipo-docker-compose.yml.j2
+    dest: "{{ config_dir }}/misc/pipo/docker-compose.yml"
+    mode: 0640
+  become: false
+  notify: Restart pipo
+
+- name: Ensure pipo is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ config_dir }}/misc/pipo"
+  become: false
