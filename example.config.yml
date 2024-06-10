@@ -136,3 +136,11 @@ pihole_dns_records: # remove unused records
 pihole_virtual_host: 'pihole.{{ pihole_domain }}'
 # Upstream DNS server(s) for Pi-hole to forward queries, using Quad9
 pihole_dns: '9.9.9.11;149.112.112.11;2620:fe::11;2620:fe::fe:11'
+
+### Monitoring config ###
+monitoring_enable: true
+monitoring_speedtest_interval: 60m
+monitoring_ping_interval: 60s
+monitoring_ping_hosts:
+  - http://www.google.com/;google.com
+  - https://github.com/;github.com
