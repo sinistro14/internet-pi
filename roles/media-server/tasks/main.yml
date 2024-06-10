@@ -1,8 +1,8 @@
 ---
 - name: Setup media storage
   ansible.builtin.import_tasks: disk_setup.yml
-  when: media_server_enable
+  when: media_server_enable and media_disk_label and media_disk_path
 
 - name: Setup media server
   ansible.builtin.import_tasks: media_server.yml
-  when: media_server_enable
+  when: media_server_enable and media_disk_path

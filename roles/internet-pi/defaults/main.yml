@@ -22,7 +22,7 @@ pihole_dhcp_leasetime: 1
 pihole_dhcp_rapid_commit: true
 
 # Internet monitoring configuration.
-monitoring_enable: true
+monitoring_enable: false
 monitoring_grafana_admin_password: change-this-password
 monitoring_speedtest_interval: 60m
 monitoring_ping_interval: 5s

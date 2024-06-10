@@ -7,7 +7,7 @@
 
 - name: Create media folder symbolic link
   ansible.builtin.file:
-    src: "/mnt/data"
+    src: "{{ media_disk_path }}"
     dest: "/home/{{ ansible_user }}/media-server/media"
     state: link
     mode: 0755

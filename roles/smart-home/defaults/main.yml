@@ -1,5 +1,5 @@
 ### Home Assistant ###
-ha_enable: true
+ha_enable: false
 ha_version: stable
 conbee_path: /dev/ttyACM0
 

@@ -1,6 +1,6 @@
 # Media server configuration
-media_server_enable: true
-media_disk_label: media_storage
+media_server_enable: false
+media_disk_path: '/mnt/data'
 
 ## Plex media server
 plex_claim_token: ''
