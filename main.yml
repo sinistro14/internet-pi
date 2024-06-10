@@ -53,3 +53,8 @@
       prompt: "Enter password for pi-hole"
       private: yes
       confirm: yes
+
+    - name: monitoring_grafana_admin_password
+      prompt: "Enter default password for grafana admin"
+      private: yes
+      confirm: yes
