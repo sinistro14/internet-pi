@@ -20,6 +20,7 @@
     path: "/home/{{ ansible_user }}/pi-hole/etc-pihole/custom.list"
     line: "{{ static_ip }} {{ item }}"
     state: present
+    create: true
   loop: "{{ pihole_dns_records }}"
   when: pihole_dns_records
   become: true

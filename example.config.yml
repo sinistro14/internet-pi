@@ -8,7 +8,6 @@ server_domain: '{{ server_hostname }}.home'
 interface: eth0   # eth0 if wired ethernet connection, but double check
 static_ip: '{{ server_ip }}'
 static_ip_address: '{{ static_ip }}/24'
-routers: <router_ip>
 dns_servers: <dns_server_ip>  # usually same as router
 
 ### energy-saving config ###
@@ -21,7 +20,7 @@ system_packages:  # add others if required
   - apt-transport-https
   - vim
 
-system_ssh_user_salt: <add_random_salt>
+system_ssh_user_salt: <add_random_salt> # 16 chars max
 
 ssh_public_keys:
   - <ssh_public_key>

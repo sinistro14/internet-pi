@@ -2,13 +2,27 @@
 - name: Configure static IP in /etc/dhcpcd.conf
   become: yes
   lineinfile:
-    dest:  /etc/dhcpcd.conf
+    dest: /etc/dhcpcd.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
+    create: true
     state: present
   with_items:
     - { regexp: "^interface eth[0-9]$", line: "interface {{ interface }}" }
     - { regexp: "^static ip_address", line: "static ip_address={{ static_ip_address }}" }
-    - { regexp: "^static routers", line: "static routers={{ routers }}" }
+    - { regexp: "^static routers", line: "static routers={{ dns_servers }}" }
     - { regexp: "^static domain_name_servers", line: "static domain_name_servers={{ dns_servers }}" }
   notify: reboot
+  when:
+    - ansible_distribution_major_version is version('12', '<')
+
+- name: Configure static IP for {{ interface }} as {{ static_ip_address }} with nmcli
+  community.general.nmcli:
+    state: present
+    conn_name: wired_connection
+    type: ethernet
+    ifname: {{ interface }}
+    ip4: {{ static_ip_address }}
+    dns4: {{ dns_servers }}
+  when:
+    - ansible_distribution_major_version is version('12', '>=')
