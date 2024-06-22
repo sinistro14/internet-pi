@@ -21,8 +21,8 @@
     state: present
     conn_name: wired_connection
     type: ethernet
-    ifname: {{ interface }}
-    ip4: {{ static_ip_address }}
-    dns4: {{ dns_servers }}
+    ifname: "{{ interface }}"
+    ip4: "{{ static_ip_address }}"
+    dns4: "{{ dns_servers }}"
   when:
     - ansible_distribution_major_version is version('12', '>=')
