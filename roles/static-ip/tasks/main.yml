@@ -10,7 +10,7 @@
   with_items:
     - { regexp: "^interface eth[0-9]$", line: "interface {{ interface }}" }
     - { regexp: "^static ip_address", line: "static ip_address={{ static_ip_address }}" }
-    - { regexp: "^static routers", line: "static routers={{ dns_servers }}" }
+    - { regexp: "^static routers", line: "static routers={{ routers }}" }
     - { regexp: "^static domain_name_servers", line: "static domain_name_servers={{ dns_servers }}" }
   notify: reboot
   when:
@@ -23,6 +23,8 @@
     type: ethernet
     ifname: "{{ interface }}"
     ip4: "{{ static_ip_address }}"
+    gw4: "{{ routers }}"
     dns4: "{{ dns_servers }}"
+  notify: reboot
   when:
     - ansible_distribution_major_version is version('12', '>=')
