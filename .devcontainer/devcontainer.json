@@ -1,0 +1,20 @@
+{
+	"name": "Debian",
+	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
+	"features": {
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.13",
+			"installTools": false
+		}
+	},
+	"mounts": [
+		"source=${env:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
+		"source=${env:HOME}/.ssh/known_hosts,target=/home/vscode/.ssh/known_hosts,type=bind,readonly"
+	],
+	"postCreateCommand": "make devcontainer_setup; make setup;",
+	"runArgs": [
+		"--name",
+		"internet-pi-devcontainer"
+	]
+}
