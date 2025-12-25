@@ -34,7 +34,7 @@
     - role: monitoring
     - role: media-server
     - role: smart-home
-    - role: misc
+    #- role: misc
     - role: reverse-proxy
 
   vars_prompt:
