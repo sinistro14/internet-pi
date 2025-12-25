@@ -27,4 +27,3 @@ setup:
 .PHONY: deploy
 deploy:
 	ansible-playbook -e @vault.yml --ask-vault-pass main.yml
-

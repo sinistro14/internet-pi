@@ -42,7 +42,6 @@ services:
       - media-server
     labels:
       - "traefik.enable={{ reverse_proxy_enable|lower }}"
-      - "traefik.port=8080"
       - "traefik.http.routers.dashboard.entrypoints=http"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.{{ server_domain }}`)"

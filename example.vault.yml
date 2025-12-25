@@ -1,0 +1,8 @@
+system_ssh_user_password: ""
+postfix_sasl_password: ""
+docker_username: ""
+docker_password: ""
+pihole_password: ""
+monitoring_grafana_admin_password: ""
+surfshark_username: ""
+surfshark_password: ""

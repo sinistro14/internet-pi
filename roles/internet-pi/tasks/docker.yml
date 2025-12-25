@@ -64,3 +64,24 @@
 # reset_connection doesn't support conditionals.
 - name: Reset connection so docker group is picked up.
   meta: reset_connection
+
+- name: Log in to Docker Hub.
+  community.docker.docker_login:
+    username: "{{ docker_username }}"
+    password: "{{ docker_password }}"
+    reauthorize: true
+  become: false
+  when:
+    - docker_username
+    - docker_password
+
+- name: Log in to Docker Hardened Images (DHI).
+  community.docker.docker_login:
+    registry_url: "dhi.io"
+    username: "{{ docker_username }}"
+    password: "{{ docker_password }}"
+    reauthorize: true
+  become: false
+  when:
+    - docker_username
+    - docker_password

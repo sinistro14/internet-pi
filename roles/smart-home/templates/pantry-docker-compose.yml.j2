@@ -22,6 +22,6 @@ services:
       - default
     labels:
       - "traefik.enable={{ reverse_proxy_enable }}"
-      - "traefik.port=80"
+      - "traefik.http.services.grocy.loadbalancer.server.port=80"
       - "traefik.http.routers.grocy.entrypoints=http"
       - "traefik.http.routers.grocy.rule=Host(`grocy.{{ server_domain }}`)"

@@ -2,6 +2,10 @@
 # Location where configuration files will be stored.
 config_dir: '~'
 
+# Docker
+docker_username: ''
+docker_password: ''
+
 # Pi-hole configuration.
 pihole_version: 'latest'
 pihole_enable: true

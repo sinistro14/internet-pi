@@ -10,7 +10,7 @@
 	},
 	"mounts": [
 		"source=${env:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
-		"source=${env:HOME}/.ssh/known_hosts,target=/home/vscode/.ssh/known_hosts,type=bind,readonly"
+		"source=${env:HOME}/.ssh/known_hosts,target=/home/vscode/.ssh/known_hosts,type=bind"
 	],
 	"postCreateCommand": "make devcontainer_setup; make setup;",
 	"runArgs": [
