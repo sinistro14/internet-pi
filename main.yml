@@ -57,3 +57,13 @@
       prompt: "Enter default password for grafana admin"
       private: yes
       confirm: yes
+
+    - name: docker_username
+      prompt: "Enter Docker Hub username"
+      private: yes
+      confirm: yes
+
+    - name: docker_password
+      prompt: "Enter Docker Hub password"
+      private: yes
+      confirm: yes
